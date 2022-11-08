@@ -10,7 +10,7 @@ async function getApiCountries() {
         name: c.name.common,
         flag: c.flags[0],
         continent: c.continents[0],
-        capital: c.capital ? c.capital : ["No especificado"],
+        capital: c.capital ? c.capital[0] : "No especificado",
         subregion: c.subregion ? c.subregion : "No especificado",
         area: c.area,
         population: c.population,
