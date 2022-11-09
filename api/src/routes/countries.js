@@ -3,6 +3,7 @@ const router = Router();
 const axios = require("axios");
 const { Country, Activity } = require("../db.js");
 const { getApiCountries } = require("../connectors/countries.js");
+const { Op } = require("sequelize");
 
 let fillDb = false; //Para que sólo intente llenar la base de datos la primera vez que corre el servidor
 
@@ -16,11 +17,20 @@ router.get("/", async (req, res) => {
     }
 
     if (name) {
-      name = name.charAt(0).toUpperCase() + name.toLowerCase().slice(1); //Capitalizo la primera letra del nombre y en minusculas el resto para que la búsqueda no sea tan estricta
-      let country = await Country.findOne({
+     // name = name.charAt(0).toUpperCase() + name.toLowerCase().slice(1); //Capitalizo la primera letra del nombre y en minusculas el resto para que la búsqueda no sea tan estricta
+      let country = await Country.findAll({
         where: {
-          name,
+          name:{[Op.iLike]:`%${name}%`}
         },
+        include: [
+          {
+            model: Activity,
+            attributes: { exclude: ["id"] },
+            through: {
+              attributes: [],
+            },
+          },
+        ],
       });
 
       res.status(200).json(country);
