@@ -1,10 +1,10 @@
 let initialState = {
   countries: [],
   filteredCountries: [],
-  countrySearch: [],
   countryDetail: [],
   activities: [],
   loading: [],
+  filters: false
 };
 
 function orderMax (a,b, property) {           //Paso property para llamar a las mismas funciones con orderByName y orderByPopulation
@@ -27,10 +27,10 @@ export default function rootReducer(state = initialState, action) {
     case "LOAD_COUNTRIES":
       return { ...state, loading: true };
     case "GET_COUNTRIES": {
-      return { ...state, countries: action.payload, filteredCountries: action.payload, loading: false };
+      return { ...state, countries: action.payload, filteredCountries: action.payload, loading: false, filters:false };
     }
     case "SEARCH_COUNTRY":
-      return { ...state, countrySearch: action.payload, loading: false };
+      return { ...state, filteredCountries: action.payload, filters:true};
     case "GET_COUNTRY_DETAIL":
       return { ...state, countryDetail: action.payload };
     case "GET_ACTIVITIES":
@@ -40,7 +40,7 @@ export default function rootReducer(state = initialState, action) {
       
       const filteredCountries = action.payload === 'All' ? allCountries : allCountries.filter(c=> c.continent === action.payload)
 
-      return {...state, filteredCountries: filteredCountries};
+      return {...state, filteredCountries: filteredCountries, filters: true};
     case "ORDER_BY_NAME":
       
       if(action.payload == 'asc'){
@@ -51,7 +51,7 @@ export default function rootReducer(state = initialState, action) {
         order = state.countries.sort((a,b) => orderMin(a,b, 'name'))
       }
 
-      return {...state, filteredCountries: orderFiltered, countries: order };
+      return {...state, filteredCountries: orderFiltered, countries: order, filters:true};
     
       case "ORDER_BY_POPULATION":
 
@@ -63,7 +63,7 @@ export default function rootReducer(state = initialState, action) {
         order = state.countries.sort((a,b) => orderMax(a,b, 'population'))
       }
 
-      return {...state, filteredCountries: orderFiltered, countries: order };
+      return {...state, filteredCountries: orderFiltered, countries: order, filters:true};
     default:
       return {...state};
   }

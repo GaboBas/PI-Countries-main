@@ -23,12 +23,14 @@ export function getCountries() {
 
 export function searchCountry(name) {
   return function (dispatch) {
-    dispatch(loading());
     axios.get(`${urlCountries}?name=${name}`).then((country) => {
       return dispatch({
         type: "SEARCH_COUNTRY",
         payload: country.data,
       });
+    })
+    .catch(e=>{
+      console.log(e.message)
     });
   };
 }
@@ -54,7 +56,10 @@ export function getActivities() {
     });
   };
 }
-export function createActivity(activity) {}
+export function createActivity(activity) {
+  axios.post(urlActivities, activity)
+  .then(response => response)
+}
 
 export function filterByContinent(continent){
   return {
