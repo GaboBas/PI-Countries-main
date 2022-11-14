@@ -2,7 +2,7 @@ let initialState = {
   countries: [],
   filteredCountries: [],
   countrySearch: [],
-  countryDetails: [],
+  countryDetail: [],
   activities: [],
   loading: [],
 };
@@ -32,7 +32,7 @@ export default function rootReducer(state = initialState, action) {
     case "SEARCH_COUNTRY":
       return { ...state, countrySearch: action.payload, loading: false };
     case "GET_COUNTRY_DETAIL":
-      return { ...state, countryDetails: action.payload };
+      return { ...state, countryDetail: action.payload };
     case "GET_ACTIVITIES":
       return {...state, activities: action.payload}
     case "FILTER_BY_CONTINENT":

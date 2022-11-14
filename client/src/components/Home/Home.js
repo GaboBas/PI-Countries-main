@@ -13,6 +13,9 @@ export default function Home() {
   let activities = useSelector((state) => state.activities);
   let loading = useSelector((state) => state.loading);
   const [currentPage, setCurrentPage] = useState(1)
+  const firstIndex = ((currentPage-1)*10)-1;        //Obtengo el index del primer pais que va a mostarse en la página a partir de la segunda
+  const lastIndex = (currentPage*10)-2;             //Obtengo el index del último pais que va a mostrarse en la página a partir de la segunda
+
   const [orderName, setOrderName] = useState('Nombre');
   const [orderPop, setOrderPop] = useState('Población');
   
@@ -27,12 +30,14 @@ export default function Home() {
     dispatch(getActivities());
   }, [dispatch]);
 
+//Filtrar por Continente
   function handleFilterContinent(e) {
     e.preventDefault();
     dispatch(filterByContinent(e.target.value));
     setCurrentPage(1);
   }
 
+//Ordenar por Nombre
   function handleOrderByName(e) {
     e.preventDefault();
     if(orderName === 'Nombre' || orderName === 'Nombre↑'){
@@ -42,12 +47,14 @@ export default function Home() {
     dispatch(orderByName('desc'))
       setOrderName('Nombre↑')
   }
-  setOrderPop('Población');
-/*     dispatch(orderByName(e.target.value));
+  setOrderPop('Población');       //Para asegurarse que el botón población ya no cuente con ninguna flechita
+
+  /*     dispatch(orderByName(e.target.value));
     setCurrentPage(1);
     setOrder(`Ordered ${e.target.value}`); */
   }
 
+  //Ordenar por población
   function handleOrderByPopulation(e) {
     e.preventDefault();
     if(orderPop === 'Población' || orderPop === 'Población↑'){
@@ -62,7 +69,7 @@ export default function Home() {
     setCurrentPage(1);
     setOrderPop(`Ordered ${e.target.value}`); */
 
-    setOrderName('Nombre')
+    setOrderName('Nombre')    //Para asegurarse que el botón Nombre ya no cuente con ninguna flechita
   }
   
   return (
@@ -96,7 +103,7 @@ export default function Home() {
         <img src={loadingLogo} alt="Cargando..." />
       ) : countries.length && countries.map((c, i) => {
           if(i<9 && currentPage===1)return <Country name={c.name} flag={c.flag} continent={c.continent} population={c.population} key={c.id}/>  //Si es la primera página, voy a renderizar los primeros 9 paises, teniendo en cuenta el index del arreglo countries
-          else if((i>=((currentPage-1)*10)-1) && i<((currentPage*10)-1) && currentPage !== 1) return <Country name={c.name} flag={c.flag} continent={c.continent} population={c.population} key={c.name}/> ; //A partir de la segunda, renderizaré 10 paises
+          else if(i>=firstIndex && i<=lastIndex && currentPage !== 1) return <Country name={c.name} flag={c.flag} continent={c.continent} population={c.population} key={c.name}/> ; //A partir de la segunda, renderizaré 10 paises
         })
       }
     </div>
