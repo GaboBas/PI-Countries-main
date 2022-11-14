@@ -36,7 +36,7 @@ router.get("/", async (req, res) => {
       res.status(200).json(country);
     } else {
       let countries = await Country.findAll({
-        attributes: ["name", "flag", "continent"],
+        attributes: ["id", "name", "flag", "continent", "population"],
       });
 
       res.status(200).json(countries);

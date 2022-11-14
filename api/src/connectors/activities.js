@@ -16,7 +16,6 @@ async function addActivity(name, difficulty, duration, season, countries) {
       where: { name },
       defaults: { difficulty, duration, season },
     });
-    console.log(creAct);
     await creAct[0].setCountries(countries);
   } catch (e) {
     throw Error(e.message);
