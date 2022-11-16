@@ -43,7 +43,7 @@ export default function rootReducer(state = initialState, action) {
       return {...state, filteredCountries: filteredCountries, filters: true};
     case "ORDER_BY_NAME":
       
-      if(action.payload == 'asc'){
+      if(action.payload === 'asc'){
         orderFiltered = state.filteredCountries.sort((a,b) => orderMax(a,b, 'name'))
         order = state.countries.sort((a,b) => orderMax(a,b, 'name'))
       } else{
@@ -55,7 +55,7 @@ export default function rootReducer(state = initialState, action) {
     
       case "ORDER_BY_POPULATION":
 
-      if(action.payload == 'max'){
+      if(action.payload === 'max'){
         orderFiltered = state.filteredCountries.sort((a,b) => orderMin(a,b, 'population'))
         order = state.countries.sort((a,b) => orderMin(a,b, 'population'))
       } else{
@@ -64,6 +64,9 @@ export default function rootReducer(state = initialState, action) {
       }
 
       return {...state, filteredCountries: orderFiltered, countries: order, filters:true};
+
+      case "POST_ACTIVITY":
+        return {...state};
     default:
       return {...state};
   }

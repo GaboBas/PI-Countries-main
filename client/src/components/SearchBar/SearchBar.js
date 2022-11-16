@@ -1,8 +1,8 @@
-import React, {useEffect, useState} from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { getCountries, searchCountry } from "../../actions";
+import React, {useState} from "react";
+import { useDispatch } from "react-redux";
+import { searchCountry } from "../../actions";
 
-export default function SearchBar(){
+export default function SearchBar({setCurrentPage}){
     const dispatch = useDispatch();
 
     const [name, setName] = useState('');
@@ -16,11 +16,12 @@ export default function SearchBar(){
         e.preventDefault();
         dispatch(searchCountry(name));
         setName('');
+        return setCurrentPage(1);
     }
 
     return (
         <div>
-            <input type='text' placeholder="País..." value={name} onChange={(e)=>handleInputChange(e)}/>
+            <input type='search' placeholder="País..." value={name} onChange={(e)=>handleInputChange(e)}/>
             <button onClick={(e) => handleSubmit(e)}>Buscar</button>
         </div>
     )

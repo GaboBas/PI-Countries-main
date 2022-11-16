@@ -42,12 +42,12 @@ export default function Home() {
 //Ordenar por Nombre
   function handleOrderByName(e) {
     e.preventDefault();
-    if(orderName === 'Nombre' || orderName === 'Nombre↑'){
+    if(orderName === 'Nombre' || orderName === 'Nombre↓'){
       dispatch(orderByName('asc'))
-      setOrderName('Nombre↓')
+      setOrderName('Nombre↑')
   } else{
     dispatch(orderByName('desc'))
-      setOrderName('Nombre↑')
+      setOrderName('Nombre↓')
   }
   setOrderPop('Población');       //Para asegurarse que el botón población ya no cuente con ninguna flechita
 
@@ -57,12 +57,12 @@ export default function Home() {
   //Ordenar por población
   function handleOrderByPopulation(e) {
     e.preventDefault();
-    if(orderPop === 'Población' || orderPop === 'Población↑'){
-      dispatch(orderByPopulation('max'))
-      setOrderPop('Población↓')
-  } else{
-    dispatch(orderByPopulation('min'))
+    if(orderPop === 'Población' || orderPop === 'Población↓'){
+      dispatch(orderByPopulation('min'));
       setOrderPop('Población↑')
+  } else{
+    dispatch(dispatch(orderByPopulation('max')));
+      setOrderPop('Población↓')
   } ;
 
     setOrderName('Nombre')    //Para asegurarse que el botón Nombre ya no cuente con ninguna flechita
@@ -71,12 +71,15 @@ export default function Home() {
   function handleUnfilter(e) {
     e.preventDefault();
     dispatch(getCountries());
+    setOrderName('Nombre');
+    setOrderPop('Población')
+    setCurrentPage(1);
   }
   
   return (
     <div>
-      <Link to="/activity">Crear Actividad</Link>
-      <SearchBar/>
+      <Link to="home/activity/create">Crear Actividad</Link>
+      <SearchBar setCurrentPage={setCurrentPage}/>
       <div>Ordenar por:</div>
       
       <button onClick={(e) => handleOrderByName(e)}>{orderName}</button>

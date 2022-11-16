@@ -57,8 +57,11 @@ export function getActivities() {
   };
 }
 export function createActivity(activity) {
+  return function(dispatch){
   axios.post(urlActivities, activity)
-  .then(response => response)
+  .then(response => {
+    return {type: "POST_ACTIVITY"}})
+  }
 }
 
 export function filterByContinent(continent){
