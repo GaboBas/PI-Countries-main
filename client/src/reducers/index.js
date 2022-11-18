@@ -66,7 +66,12 @@ export default function rootReducer(state = initialState, action) {
       return {...state, filteredCountries: orderFiltered, countries: order, filters:true};
 
       case "POST_ACTIVITY":
-        return {...state};
+        return {...state, activities: [...state.activities, action.payload]};
+      
+      case "FILTER_BY_ACTIVITY":
+        const countriesByActivity = action.payload === 'All' ? state.countries : state.countries.filter(c => c.activities.find(a => a.name === action.payload)) 
+        console.log(countriesByActivity)
+        return {...state, filteredCountries: countriesByActivity}
     default:
       return {...state};
   }

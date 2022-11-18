@@ -5,6 +5,7 @@ async function getApiCountries() {
   try {
     let countriesApi = await axios.get("https://restcountries.com/v3/all");
     let countries = countriesApi.data.map((c) => {
+      if(c.name.common==='Åland Islands') c.name.common = 'Aland Islands';
       return {
         id: c.cca3,
         name: c.name.common,

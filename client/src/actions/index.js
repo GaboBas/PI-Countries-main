@@ -51,7 +51,7 @@ export function getActivities() {
     axios.get(urlActivities).then((activities) => {
       return dispatch({
         type: "GET_ACTIVITIES",
-        payload: activities,
+        payload: activities.data,
       });
     });
   };
@@ -60,7 +60,14 @@ export function createActivity(activity) {
   return function(dispatch){
   axios.post(urlActivities, activity)
   .then(response => {
-    return {type: "POST_ACTIVITY"}})
+    return dispatch({type: "POST_ACTIVITY", payload: response})})
+  }
+}
+
+export function filterByActivity(activity) {
+  return{
+    type: "FILTER_BY_ACTIVITY",
+    payload: activity
   }
 }
 

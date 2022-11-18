@@ -37,7 +37,8 @@ router.get("/", async (req, res) => {
     } else {
       let countries = await Country.findAll({
         attributes: ["id", "name", "flag", "continent", "population"],
-      });
+        include: Activity
+        });
 
       res.status(200).json(countries);
     }
@@ -56,15 +57,7 @@ router.get("/:id", async (req, res) => {
     }
     let country = await Country.findByPk(id.toUpperCase(), {
       attributes: ["name", "id", "capital", "subregion", "area", "population"],
-      include: [
-        {
-          model: Activity,
-          attributes: { exclude: ["id"] },
-          through: {
-            attributes: [],
-          },
-        },
-      ],
+      include: Activity,
     });
     if (!country) throw Error("No se encontró ningún país con esa ID");
     res.status(200).json(country);

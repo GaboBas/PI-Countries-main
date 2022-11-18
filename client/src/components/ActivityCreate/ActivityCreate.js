@@ -7,6 +7,7 @@ export default function ActivityCreate() {
   const dispatch = useDispatch();
 
   const countries = useSelector((state) => state.filteredCountries);
+  const activities =useSelector((state) => state.activities)
   const seasons = ["Verano", "Otoño", "Invierno", "Primavera"];
   const difficulties = ["1", "2", "3", "4", "5"];
 
@@ -20,13 +21,22 @@ export default function ActivityCreate() {
 
   const [addedCountries, setAddedCountries] = useState([]) //Estado que sirve para mostrar los paises agregados a la actividad por el momento ya que activity.countries es un array de ids
 
-  const [error, setError] = useState('');  
+  const [errors, setErrors] = useState({});  
 
-  function validateName(name) {
+  function validate(activity) {
+    let errors = {};
     let validation = /[¡!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/¿?]+/;
-    if (validation.test(name)){
-      setError('El nombre de la actividad no debe contener caracteres especiales')
+    if(!activity.name) {
+      errors.name = 'La actividad debe tener un nombre';
+    }else if(validation.test(activity.name)){
+      errors.name = 'El nombre de la actividad no debe contener caracteres especiales'
     }
+    
+    if (activity.duration < 0 || activity.duration > 24){
+      errors.duration = 'La duración debe ser entre 0 y 24 horas';
+    }
+
+    return errors;
   }
 
 
@@ -38,13 +48,12 @@ export default function ActivityCreate() {
   dispatch(orderByName("asc")); //Ordeno la lista de paises para que sea más fácil encontrarlos
 
   function handleChange(e) {
-    console.log(e.target.name);
-
-    if([e.target.name] === 'name'){
-      validateName(e.target.name);
-    }
 
     setActivity({...activity, [e.target.name] : e.target.value})
+    
+    setErrors(validate({
+      ...activity, [e.target.name] : e.target.value
+    }))
   }
 console.log(activity);
 
@@ -75,6 +84,10 @@ console.log(activity);
   }
   
   function handleSubmit(e) {
+    if(activities.find(a => a.name===activity.name)){
+      e.preventDefault();
+      return alert('Ya existe una actividad con ese nombre');
+    } 
     dispatch(createActivity(activity));
     alert('¡Actividad Creada!');
     setActivity({
@@ -96,6 +109,7 @@ console.log(activity);
         <div>
           <label>Nombre: </label>
           <input type="text" name="name" value={activity.name} key='name' onChange={(e)=>handleChange(e)} required />
+          {errors.name && ( <p className="Error">{errors.name}</p>)}
         </div>
         <div>
           <label>Dificultad: </label>
@@ -146,6 +160,7 @@ console.log(activity);
             max={24}
             onChange={(e)=>handleChange(e)}
           /> Hs.
+          {errors.duration && (<p>{errors.duration}</p>)}
         </div>
 
         <div>
