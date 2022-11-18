@@ -1,7 +1,7 @@
 let initialState = {
   countries: [],
   filteredCountries: [],
-  countryDetail: [],
+  countryDetail: null,
   activities: [],
   loading: [],
   filters: false
@@ -32,7 +32,7 @@ export default function rootReducer(state = initialState, action) {
     case "SEARCH_COUNTRY":
       return { ...state, filteredCountries: action.payload, filters:true};
     case "GET_COUNTRY_DETAIL":
-      return { ...state, countryDetail: action.payload };
+      return { ...state, countryDetail: action.payload, loading:false };
     case "GET_ACTIVITIES":
       return {...state, activities: action.payload}
     case "FILTER_BY_CONTINENT":
@@ -71,7 +71,7 @@ export default function rootReducer(state = initialState, action) {
       case "FILTER_BY_ACTIVITY":
         const countriesByActivity = action.payload === 'All' ? state.countries : state.countries.filter(c => c.activities.find(a => a.name === action.payload)) 
         console.log(countriesByActivity)
-        return {...state, filteredCountries: countriesByActivity}
+        return {...state, filteredCountries: countriesByActivity, filters: true}
     default:
       return {...state};
   }

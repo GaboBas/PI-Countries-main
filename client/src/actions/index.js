@@ -36,12 +36,20 @@ export function searchCountry(name) {
 }
 
 export function getCountryDetail(id) {
+  console.log('Entro en getCountryDetail')
   return function (dispatch) {
-    axios.get(`${urlCountries}/:id`).then((detail) => {
+    axios.get(`${urlCountries}/${id}`).then((detail) => {
+      console.log(detail.data)
       return dispatch({
         type: "GET_COUNTRY_DETAIL",
         payload: detail.data,
       });
+    })
+    .catch(e=> {
+      return dispatch({
+        type: "GET_COUNTRY_DETAIL",
+        payload: null,
+      })
     });
   };
 }
@@ -53,7 +61,8 @@ export function getActivities() {
         type: "GET_ACTIVITIES",
         payload: activities.data,
       });
-    });
+    })
+    .catch(e=>console.log(e))
   };
 }
 export function createActivity(activity) {

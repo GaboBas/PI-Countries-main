@@ -5,6 +5,7 @@ import { getCountries, getActivities, orderByName, createActivity } from "../../
 
 export default function ActivityCreate() {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const countries = useSelector((state) => state.filteredCountries);
   const activities =useSelector((state) => state.activities)
@@ -19,10 +20,12 @@ export default function ActivityCreate() {
     countries: [],
   });
 
+
   const [addedCountries, setAddedCountries] = useState([]) //Estado que sirve para mostrar los paises agregados a la actividad por el momento ya que activity.countries es un array de ids
 
   const [errors, setErrors] = useState({});  
-
+ 
+  //Validaciones
   function validate(activity) {
     let errors = {};
     let validation = /[¡!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/¿?]+/;
@@ -55,7 +58,7 @@ export default function ActivityCreate() {
       ...activity, [e.target.name] : e.target.value
     }))
   }
-console.log(activity);
+
 
   function handleSelect(e) {
     console.log(e.target.value)
@@ -69,6 +72,10 @@ console.log(activity);
     let addCountry = countries.find(c => c.id==e.target.value);
 
     setAddedCountries([...addedCountries, addCountry]);
+
+    e.target.value = 'Seleccione País';
+
+    console.log(e.target.value)
   }
 
   
@@ -97,6 +104,7 @@ console.log(activity);
       season: '',
       countries: [],
     })
+    history.push('/home');
   }
 
   return (
@@ -108,15 +116,15 @@ console.log(activity);
       <form  onSubmit={e=> {handleSubmit(e)}}>
         <div>
           <label>Nombre: </label>
-          <input type="text" name="name" value={activity.name} key='name' onChange={(e)=>handleChange(e)} required />
+          <input type="text" name="name" value={activity.name} key='name' onChange={(e)=>handleChange(e)} autocomplete="off" required />
           {errors.name && ( <p className="Error">{errors.name}</p>)}
         </div>
         <div>
           <label>Dificultad: </label>
           <div>
-            {difficulties.map((d) => {
+            {difficulties.map((d, i) => {
               return (
-                <span>
+                <span key={i}>
                   <input
                     type="radio"
                     name="difficulty"
@@ -132,9 +140,9 @@ console.log(activity);
         <div>
           <label>Estación: </label>
           <div>
-            {seasons.map((s) => {
+            {seasons.map((s, i) => {
               return (
-                <span>
+                <span key={i}>
                   <input
                     type="radio"
                     name="season"

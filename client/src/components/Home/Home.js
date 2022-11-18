@@ -14,6 +14,7 @@ export default function Home() {
   let activities = useSelector((state) => state.activities);
   let loading = useSelector((state) => state.loading);
   let filters = useSelector((state) => state.filters)
+  
   const [currentPage, setCurrentPage] = useState(1)
   const firstIndex = ((currentPage-1)*10)-1;        //Obtengo el index del primer pais que va a mostarse en la página a partir de la segunda
   const lastIndex = (currentPage*10)-2;             //Obtengo el index del último pais que va a mostrarse en la página a partir de la segunda
@@ -121,7 +122,7 @@ export default function Home() {
       <select id='Activities' value={selectedActivity} onChange={(e)=> handleFilterActivity(e)}>
       <option value="All" >Todos</option>
         {activities?.map((a) => {
-          return <option value={a.name}>{a.name}</option>;
+          return <option value={a.name} key={a.id}>{a.name}</option>;
         })}
       </select>
 
@@ -132,8 +133,8 @@ export default function Home() {
       {loading ? (
         <img src={loadingLogo} alt="Cargando..." />
       ) : countries.length ? countries.map((c, i) => {
-          if(i<9 && currentPage===1)return <Country name={c.name} flag={c.flag} continent={c.continent} population={c.population} key={c.id}/>  //Si es la primera página, voy a renderizar los primeros 9 paises, teniendo en cuenta el index del arreglo countries
-          else if(i>=firstIndex && i<=lastIndex && currentPage !== 1) return <Country name={c.name} flag={c.flag} continent={c.continent} population={c.population} key={c.name}/> ; //A partir de la segunda, renderizaré 10 paises
+          if(i<9 && currentPage===1)return <Link key={i} to={'/home/'+c.id}><Country name={c.name} flag={c.flag} continent={c.continent} population={c.population} key={c.id}/></Link>  //Si es la primera página, voy a renderizar los primeros 9 paises, teniendo en cuenta el index del arreglo countries
+          else if(i>=firstIndex && i<=lastIndex && currentPage !== 1) return <Link key={i} to={'/home/'+c.id}><Country name={c.name} flag={c.flag} continent={c.continent} population={c.population} key={c.id}/></Link> ; //A partir de la segunda, renderizaré 10 paises
         }) : <div>No se encontraron países </div>
       }
     </div>

@@ -10,7 +10,7 @@ export default function Pagination({countries, pagination}) {
 
          return <div>
             <ul>
-                {pageNumbers.length && pageNumbers.map(n => {
+                {pageNumbers.length > 1 && pageNumbers.map(n => {
                     return  <button onClick={() => pagination(n)} key={n}>{n}</button>
                             
                 })}

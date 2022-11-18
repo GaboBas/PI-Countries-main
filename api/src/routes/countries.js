@@ -56,7 +56,6 @@ router.get("/:id", async (req, res) => {
       throw Error("ID inválido");
     }
     let country = await Country.findByPk(id.toUpperCase(), {
-      attributes: ["name", "id", "capital", "subregion", "area", "population"],
       include: Activity,
     });
     if (!country) throw Error("No se encontró ningún país con esa ID");
