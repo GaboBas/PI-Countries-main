@@ -3,6 +3,7 @@
 }
 
 .body {
+    background-image: url('../../img/background.jpg');
     height: 56px;
     width: 100%;
     top: 0;

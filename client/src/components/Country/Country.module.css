@@ -1,29 +1,30 @@
 .country {
-    margin: 20px;
-    width: 18rem;
-  }
-  
-  .title {
-    margin-bottom: 15px;
-  }  
-  
-  .body {
-    margin-top: 20px ;
-    padding-block: 40px; 
-    border-radius: 10%;
-    border-top-left-radius: 25px;
-    border-top-right-radius: 25px;  
-    border: 2px solid #00000000;
-    background-color: #abd1c6;
-    color: #fffffe;
-  }
+  margin: 20px;
+  width: 18rem;
+}
 
- .body:hover {
-        border-color: #f9bc60;
- }
- 
- .flag{
+.title {
+  margin-bottom: 15px;
+}
+
+.body {
+  margin-top: 20px;
+  padding-block: 40px;
+  border-radius: 10%;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+  border: 2px solid #00000000;
+  background-color: #abd1c6;
+  color: #fffffe;
+  height: 250px;
+  width: 250px;
+}
+
+.body:hover {
+  border-color: #f9bc60;
+}
+
+.flag {
   width: 150px;
   height: 100;
- }
- 
+}

@@ -5,7 +5,7 @@
     border-radius: 20px;
     border-color: #001e1d;
     cursor:pointer;
-    
+    width: 40px;
   }
   
   .pageButtons:hover{
@@ -15,4 +15,9 @@
   .selectedPageButtons{
     background-color: #001e1d;
     color: #f9bc60;
+    width: 40px;
+  }
+
+  .arrow:disabled{
+    cursor: default;
   }

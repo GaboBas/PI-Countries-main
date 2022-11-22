@@ -13,7 +13,7 @@ import loadingLogo from "../../img/world_flags_globe_2.gif";
 import Country from "../Country/Country";
 import Pagination from "../Pagination/Pagination";
 import SearchBar from "../SearchBar/SearchBar";
-import style from "./Home.module.css"
+import style from "./Home.module.css";
 
 export default function Home() {
   const dispatch = useDispatch();
@@ -25,7 +25,7 @@ export default function Home() {
   const [filters, setFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const firstIndex = (currentPage - 1) * 10 - 1; //Obtengo el index del primer pais que va a mostarse en la página a partir de la segunda
-  const lastIndex = (currentPage * 10) - 2; //Obtengo el index del último pais que va a mostrarse en la página a partir de la segunda
+  const lastIndex = currentPage * 10 - 2; //Obtengo el index del último pais que va a mostrarse en la página a partir de la segunda
 
   const [orderName, setOrderName] = useState("Nombre");
   const [orderPop, setOrderPop] = useState("Población");
@@ -79,9 +79,9 @@ export default function Home() {
     setSelectedContinent(e.target.value);
     setSelectedActivity("All");
     dispatch(filterByContinent(e.target.value));
-    if(e.target.value === 'All'){
+    if (e.target.value === "All") {
       setFilters(false);
-    } else{
+    } else {
       setFilters(true);
     }
     setCurrentPage(1);
@@ -93,9 +93,9 @@ export default function Home() {
     setSelectedActivity(e.target.value);
     setSelectedContinent("All");
     dispatch(filterByActivity(e.target.value));
-    if(e.target.value === 'All'){
+    if (e.target.value === "All") {
       setFilters(false);
-    } else{
+    } else {
       setFilters(true);
     }
   }
@@ -115,93 +115,114 @@ export default function Home() {
 
   return (
     <div>
-      <div className={style.searchBar}><SearchBar setCurrentPage={setCurrentPage} setFilters={setFilters} /></div>
+      <div className={style.searchBar}>
       <div className={style.filters}>
-      <div>Ordenar por:</div>
+        <div className={style.orderButtons}>
+          <div>Ordenar por:</div>
 
-      <button onClick={(e) => handleOrderByName(e)}>{orderName}</button>
+          <button onClick={(e) => handleOrderByName(e)}>{orderName}</button>
 
-      <button onClick={(e) => handleOrderByPopulation(e)}>{orderPop}</button>
-      <div className={style.cards}>
-      
-      <div>Filtrar Todos por Continente: </div>
-      <select
-        id="Continents"
-        value={selectedContinent}
-        onChange={(e) => handleFilterContinent(e)}
-      >
-        <option value="All">Todos</option>
-        <option value="Africa">África</option>
-        <option value="Antarctica">Antártica</option>
-        <option value="Asia">Asia</option>
-        <option value="Europe">Europa</option>
-        <option value="North America">Norteamérica</option>
-        <option value="South America">Sudamérica</option>
-        <option value="Oceania">Oceanía</option>
-      </select>
-      <div>Filtrar Todos por Actividad: </div>
-      <select
-        id="Activities"
-        value={selectedActivity}
-        onChange={(e) => handleFilterActivity(e)}
-      >
-        <option value="All">Todas</option>
-        {activities?.map((a) => {
-          return (
-            <option value={a.name} key={a.id}>
-              {a.name}
-            </option>
-          );
-        })}
-      </select>
-      </div>
-      </div>
-      {filters ? (
-        <button onClick={(e) => handleUnfilter(e)}>
-          Quitar Filtros/Búsqueda
-        </button> //Aparecerá un botón para ver los paises originales si se han filtrado o hecho una búsqueda
-      ) : (
-        <div></div>
-      )}
-    
-      
-      {loading ? (<div>
-        <img src={loadingLogo} alt="Cargando..." /><div>Cargando...</div>
+          <button onClick={(e) => handleOrderByPopulation(e)}>
+            {orderPop}
+          </button>
         </div>
-      ) : countries.length ? <div className={style.cards}> {(
+        <div className={style.filterButtons}>
+          <div className={style.orderSelectFilters}>
+            <div>Filtrar todos por Continente: </div>
+            <select
+              id="Continents"
+              value={selectedContinent}
+              onChange={(e) => handleFilterContinent(e)}
+            >
+              <option value="All">Todos</option>
+              <option value="Africa">África</option>
+              <option value="Antarctica">Antártica</option>
+              <option value="Asia">Asia</option>
+              <option value="Europe">Europa</option>
+              <option value="North America">Norteamérica</option>
+              <option value="South America">Sudamérica</option>
+              <option value="Oceania">Oceanía</option>
+            </select>
+          </div>
+          <div className={style.orderSelectFilters}>
+            <div>Filtrar todos por Actividad: </div>
+            <select
+              id="Activities"
+              value={selectedActivity}
+              onChange={(e) => handleFilterActivity(e)}
+            >
+              <option value="All">Todas</option>
+              {activities?.map((a) => {
+                return (
+                  <option value={a.name} key={a.id}>
+                    {a.name}
+                  </option>
+                );
+              })}
+            </select>
+          </div>
+        </div>
+        <SearchBar setCurrentPage={setCurrentPage} setFilters={setFilters} />
+      </div>
+      
+
         
-        countries.map((c, i) => {
-          if (i < 9 && currentPage === 1)
-            return (
-              <div className={style.countries}>
-              <Link key={i} to={"/home/" + c.id}>
-                <Country
-                  name={c.name}
-                  flag={c.flag}
-                  continent={c.continent}
-                  population={c.population}
-                  key={c.id}
-                />
-              </Link>
-              </div>
-            ) //Si es la primera página, voy a renderizar los primeros 9 paises, teniendo en cuenta el index del arreglo countries
-          else if (i >= firstIndex && i <= lastIndex && currentPage !== 1)
-            return (
-              <Link style={{ textDecoration: 'none' }} key={i} to={"/home/" + c.id}>
-                <Country
-                  name={c.name}
-                  flag={c.flag}
-                  continent={c.continent}
-                  population={c.population}
-                  key={c.id}
-                />
-              </Link>
-            ); //A partir de la segunda, renderizaré 10 paises
-        })
-      )} </div> : (
+          <button disabled={!filters} className={style.unfilter} onClick={(e) => handleUnfilter(e)}>
+            Quitar Filtros/Búsqueda
+          </button>
+      </div>
+      {loading ? (
+        <div>
+          <img src={loadingLogo} alt="Cargando..." />
+          <div>Cargando...</div>
+        </div>
+      ) : countries.length ? (
+        <div className={style.cards}>
+          {" "}
+          {countries.map((c, i) => {
+            if (i < 9 && currentPage === 1)
+              return (
+                <div className={style.countries}>
+                  <Link key={i} to={"/home/" + c.id}>
+                    <Country
+                      name={c.name}
+                      flag={c.flag}
+                      continent={c.continent}
+                      population={c.population}
+                      key={c.id}
+                    />
+                  </Link>
+                </div>
+              );
+            //Si es la primera página, voy a renderizar los primeros 9 paises, teniendo en cuenta el index del arreglo countries
+            else if (i >= firstIndex && i <= lastIndex && currentPage !== 1)
+              return (
+                <Link
+                  style={{ textDecoration: "none" }}
+                  key={i}
+                  to={"/home/" + c.id}
+                >
+                  <Country
+                    name={c.name}
+                    flag={c.flag}
+                    continent={c.continent}
+                    population={c.population}
+                    key={c.id}
+                  />
+                </Link>
+              ); //A partir de la segunda, renderizaré 10 paises
+          })}{" "}
+        </div>
+      ) : (
         <div>No se encontraron países </div>
       )}
-      <Pagination countries={countries.length} pagination={pagination} currentPage={currentPage}/>
+      <div className={style.pagination}>
+        <Pagination
+          countries={countries.length}
+          pagination={pagination}
+          currentPage={currentPage}
+        />
+      </div>
     </div>
   );
 }

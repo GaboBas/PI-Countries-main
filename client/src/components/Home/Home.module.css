@@ -1,55 +1,102 @@
 .cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    
-  }
+  margin-top: 0px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  position: relative;
+  padding-bottom: 0px;
+}
 
-body{
+body {
   background-color: #004643;
-  color:#fffffe;
+  color: #fffffe;
   font-family: sans-serif;
 }
 
-
-
-button{
+button {
   background-color: #f9bc60;
   color: #001e1d;
   margin: 5px;
   border-radius: 20px;
-  border-color: #001e1d;
+  border-color: #004643;
   cursor: pointer;
+  height: 30px;
 }
 
-
-
-select{
+select {
   background-color: #f9bc60;
-  color: #001e1d; 
+  color: #001e1d;
   border-radius: 20px;
 }
 
-input{
+input {
   background-color: #abd1c6;
 }
 
-.searchBar{
+.searchBar {
   display: flex;
+  flex-direction: row;
   justify-content: center;
   background-color: #001e1d;
 }
 
-.filters{
+.filters {
   display: flex;
   justify-content: center;
+  flex-direction: row;
+  margin-bottom: 0px;
 }
 
-.countries{
-  display: flex; 
+.orderButtons {
+  padding: 20px;
+}
+
+.filterButtons {
+  padding: 20px;
+  display: flex;
+  flex-direction: row;
+  margin: 5px;
+  margin-top: 3px;
+}
+
+.orderSelectFilters {
+  display: flex;
   flex-flow: column;
+  margin-right: 10px;
 }
 
-a{
+select{
+  height: 30px;
+}
+
+.unfilter {
+  margin-bottom: 25px;
+  align-self: flex-end;
+  padding: 10px;
+  flex-direction: unset;
+  height: 40px;
+  
+}
+
+.unfilter:disabled{
+  cursor: default;
+}
+
+.countries {
+  display: flex;
+  flex-direction: column;
+  margin: none;
+  border:none;
+  padding-bottom: 0px;
+}
+
+a {
   text-decoration: none;
+}
+
+.pagination {
+  position: relative;
+  display: flex;
+  justify-content: space-around;
 }

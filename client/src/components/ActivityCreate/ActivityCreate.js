@@ -67,6 +67,8 @@ export default function ActivityCreate() {
   
   dispatch(orderByName("asc")); //Ordeno la lista de paises para que sea más fácil encontrarlos
 
+  //CHANGE
+
   function handleChange(e) {
 
     setActivity({...activity, [e.target.name] : e.target.value})
@@ -77,7 +79,7 @@ export default function ActivityCreate() {
 
   }
 
-
+  //SELECT
   function handleSelect(e) {
     
     let country = e.target.value;
@@ -104,6 +106,7 @@ export default function ActivityCreate() {
 
 console.log(activity)
   
+//DELETE SELECTED COUNTRY
   function deleteSelect(e){
     e.preventDefault();
 
@@ -115,6 +118,7 @@ console.log(activity)
 
   }
   
+  //SUBMIT
   function handleSubmit(e) {
     e.preventDefault();
 
@@ -136,11 +140,9 @@ console.log(activity)
   }
 
   return (
-    <div className={style.body}>
-      <Link to="/home">
-        <button>Volver</button>
-      </Link>
-      <h1>Crear Actividad</h1>
+    <div >
+      <div className={style.title}><h1 className={style.h1}>Crear Actividad</h1></div>
+      <div className={style.body}>
       <form className={style.form}  onSubmit={e=> {handleSubmit(e)}}>
         <div className={style.input}>
           <label>Nombre: </label>
@@ -232,6 +234,10 @@ console.log(activity)
           <button type="submit" onClick={e => validate(activity)} className={style.submitButton} >Crear Actividad</button>
         </div>
       </form>
+      <Link to="/home">
+        <button>Volver</button>
+      </Link>
+      </div>
     </div>
   );
 }

@@ -1,0 +1,14 @@
+
+.body{
+    background-image: url('../../img/background.jpg') ; 
+    width: 100vw;
+    height: 100vh;
+    position: absolute
+}
+
+.title{
+    position: absolute;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}

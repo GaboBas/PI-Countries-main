@@ -1,0 +1,25 @@
+.body {
+    margin-top: 20px ;
+    margin-left: 35%;
+    padding-block: 40px; 
+    border-radius: 5%;  
+    border: 2px solid #00000000;
+    background-color: #abd1c6;
+    color: #fffffe;
+    width: 500px;
+    height: 700px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    
+  }
+
+  .flag{
+    position: relative;
+    align-self: center;
+  }
+
+  .activities{
+    position: relative;
+    
+  }
