@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from "react";
+import React, {useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { getCountryDetail,loading } from "../../actions";
-import loadingLogo from "../../img/discord-loading-dots-discord-loading.gif";
+import { getCountryDetail } from "../../actions";
+import loadingLogo from "../../img/world_flags_globe_2.gif";
 
 export default function CountryDetail(props) {
 
@@ -19,7 +19,10 @@ export default function CountryDetail(props) {
 
     return (
         <div>
-            {loading ? <img src={loadingLogo} alt="Cargando..." /> :
+            {loading ? (<div>
+        <img src={loadingLogo} alt="Cargando..." /><div>Cargando...</div>
+        </div>
+      ) :
             country ?
              <div><h3>{country.name}</h3>
             <img src={country.flag} alt='Flag not found' width='250px' height='200px'/>

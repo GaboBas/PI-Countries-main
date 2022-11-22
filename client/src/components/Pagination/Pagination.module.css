@@ -1,0 +1,18 @@
+.pageButtons{
+    background-color: #f9bc60;
+    color: #001e1d;
+    margin: 5px;
+    border-radius: 20px;
+    border-color: #001e1d;
+    cursor:pointer;
+    
+  }
+  
+  .pageButtons:hover{
+    border-color: #fdd599;
+    
+  }
+  .selectedPageButtons{
+    background-color: #001e1d;
+    color: #f9bc60;
+  }

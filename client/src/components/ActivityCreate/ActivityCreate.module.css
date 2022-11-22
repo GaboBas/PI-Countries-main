@@ -1,0 +1,44 @@
+.body {
+    margin-top: 20px ;
+    padding-block: 40px; 
+    border-radius: 5%;  
+    border: 2px solid #00000000;
+    background-color: #abd1c6;
+    color: #fffffe;
+    width: 500px;
+    height: 700px;
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    
+  }
+
+  .form{
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    justify-content: space-between;
+  }
+
+  .submitButton{}
+ 
+  .submitButton:disabled, button[disabled]{
+    opacity: 0.6; 
+    cursor: not-allowed
+  }
+
+  .error{
+    color: red;
+    font-size: small;
+    font-weight: bold;
+    
+    
+  }
+
+  input{
+    background-color: #f9bc60;
+  }
+
+  .input{
+    padding: 20px;
+  }

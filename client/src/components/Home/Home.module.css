@@ -1,0 +1,55 @@
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    
+  }
+
+body{
+  background-color: #004643;
+  color:#fffffe;
+  font-family: sans-serif;
+}
+
+
+
+button{
+  background-color: #f9bc60;
+  color: #001e1d;
+  margin: 5px;
+  border-radius: 20px;
+  border-color: #001e1d;
+  cursor: pointer;
+}
+
+
+
+select{
+  background-color: #f9bc60;
+  color: #001e1d; 
+  border-radius: 20px;
+}
+
+input{
+  background-color: #abd1c6;
+}
+
+.searchBar{
+  display: flex;
+  justify-content: center;
+  background-color: #001e1d;
+}
+
+.filters{
+  display: flex;
+  justify-content: center;
+}
+
+.countries{
+  display: flex; 
+  flex-flow: column;
+}
+
+a{
+  text-decoration: none;
+}

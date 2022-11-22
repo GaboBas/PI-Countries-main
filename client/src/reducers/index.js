@@ -4,7 +4,6 @@ let initialState = {
   countryDetail: null,
   activities: [],
   loading: [],
-  filters: false
 };
 
 function orderMax (a,b, property) {           //Paso property para llamar a las mismas funciones con orderByName y orderByPopulation
@@ -27,10 +26,10 @@ export default function rootReducer(state = initialState, action) {
     case "LOAD_COUNTRIES":
       return { ...state, loading: true };
     case "GET_COUNTRIES": {
-      return { ...state, countries: action.payload, filteredCountries: action.payload, loading: false, filters:false };
+      return { ...state, countries: action.payload, filteredCountries: action.payload, loading: false};
     }
     case "SEARCH_COUNTRY":
-      return { ...state, filteredCountries: action.payload, filters:true};
+      return { ...state, filteredCountries: action.payload};
     case "GET_COUNTRY_DETAIL":
       return { ...state, countryDetail: action.payload, loading:false };
     case "GET_ACTIVITIES":
@@ -40,7 +39,7 @@ export default function rootReducer(state = initialState, action) {
       
       const filteredCountries = action.payload === 'All' ? allCountries : allCountries.filter(c=> c.continent === action.payload)
 
-      return {...state, filteredCountries: filteredCountries, filters: true};
+      return {...state, filteredCountries: filteredCountries};
     case "ORDER_BY_NAME":
       
       if(action.payload === 'asc'){
@@ -51,7 +50,7 @@ export default function rootReducer(state = initialState, action) {
         order = state.countries.sort((a,b) => orderMin(a,b, 'name'))
       }
 
-      return {...state, filteredCountries: orderFiltered, countries: order, filters:true};
+      return {...state, filteredCountries: orderFiltered, countries: order};
     
       case "ORDER_BY_POPULATION":
 
@@ -63,7 +62,7 @@ export default function rootReducer(state = initialState, action) {
         order = state.countries.sort((a,b) => orderMax(a,b, 'population'))
       }
 
-      return {...state, filteredCountries: orderFiltered, countries: order, filters:true};
+      return {...state, filteredCountries: orderFiltered, countries: order};
 
       case "POST_ACTIVITY":
         return {...state, activities: [...state.activities, action.payload]};
@@ -71,7 +70,7 @@ export default function rootReducer(state = initialState, action) {
       case "FILTER_BY_ACTIVITY":
         const countriesByActivity = action.payload === 'All' ? state.countries : state.countries.filter(c => c.activities.find(a => a.name === action.payload)) 
         console.log(countriesByActivity)
-        return {...state, filteredCountries: countriesByActivity, filters: true}
+        return {...state, filteredCountries: countriesByActivity}
     default:
       return {...state};
   }

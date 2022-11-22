@@ -1,0 +1,53 @@
+.title:visited{
+    color: inherit;
+}
+
+.body {
+    height: 56px;
+    width: 100%;
+    top: 0;
+    left: 0;
+    background-color: darkcyan;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    box-sizing: border-box;
+}
+
+.nav {
+    height: 100%;
+}
+
+.ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    height: 100%;
+}
+
+.li {
+    margin: 0;
+    display: flex;
+    width: auto;
+    align-items: center;
+}
+
+.a {
+    color: white;
+    height: 100%;
+    padding: 16px 10px;
+    border: 5px solid transparent;
+}
+
+.a:hover,
+.active {
+    background-color: #001e1d;
+    color: white;
+}
+.a:visited{
+    color: inherit;
+}

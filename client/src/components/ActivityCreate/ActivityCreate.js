@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { getCountries, getActivities, orderByName, createActivity } from "../../actions";
+import style from "./ActivityCreate.module.css";
 
 export default function ActivityCreate() {
   const dispatch = useDispatch();
@@ -14,9 +15,9 @@ export default function ActivityCreate() {
 
   const [activity, setActivity] = useState({
     name: '',
-    difficulty: '',
-    duration: '',
-    season: '',
+    difficulty: '1',
+    duration: null,
+    season: 'Verano',
     countries: [],
   });
 
@@ -29,14 +30,29 @@ export default function ActivityCreate() {
   function validate(activity) {
     let errors = {};
     let validation = /[¡!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/¿?]+/;
-    if(!activity.name) {
-      errors.name = 'La actividad debe tener un nombre';
+
+    if(activities.find(a => a.name===activity.name)){
+      errors.name = '*Ya existe una actividad con ese nombre';
+    } else if(!activity.name) {
+      errors.name = '*La actividad debe tener un nombre';
     }else if(validation.test(activity.name)){
-      errors.name = 'El nombre de la actividad no debe contener caracteres especiales'
+      errors.name = '*El nombre de la actividad no debe contener caracteres especiales'
     }
     
-    if (activity.duration < 0 || activity.duration > 24){
-      errors.duration = 'La duración debe ser entre 0 y 24 horas';
+    if (activity.duration < 0 || activity.duration > 24 ){
+      errors.duration = '*La duración debe ser entre 0 y 24 horas';
+    }
+
+    if (!activity.season){
+      errors.season = '*Debes selecionar una estación';
+    }
+
+    if (!activity.difficulty){
+      errors.difficulty = '*Debes selecionar una dificultad';
+    }
+
+
+    if(!activity.countries.length) {errors.countries = '*Debes agregar al menos un país'
     }
 
     return errors;
@@ -48,78 +64,90 @@ export default function ActivityCreate() {
     dispatch(getActivities());
   }, [dispatch]);
 
+  
   dispatch(orderByName("asc")); //Ordeno la lista de paises para que sea más fácil encontrarlos
 
   function handleChange(e) {
 
     setActivity({...activity, [e.target.name] : e.target.value})
     
-    setErrors(validate({
+      /*   setErrors(validate({
       ...activity, [e.target.name] : e.target.value
-    }))
+    })) */
+
   }
 
 
   function handleSelect(e) {
-    console.log(e.target.value)
+    
+    let country = e.target.value;
+    
+    e.target.value = 'Seleccione País';
 
-    if(activity.countries.find(c => c===e.target.value)){
+
+    if(activity.countries.find(c => c===country)){
       return alert('Ya agregaste ese país');
     }
-    
-    setActivity({...activity, countries: [...activity.countries, e.target.value]});
 
-    let addCountry = countries.find(c => c.id==e.target.value);
+
+  
+    setActivity({...activity, countries: [...activity.countries, country]});
+
+    let addCountry = countries.find(c => c.id===country);
+
 
     setAddedCountries([...addedCountries, addCountry]);
 
-    e.target.value = 'Seleccione País';
+    
 
-    console.log(e.target.value)
   }
 
+console.log(activity)
   
   function deleteSelect(e){
     e.preventDefault();
 
     setActivity({...activity, countries: activity.countries.filter(c => c!==e.target.value)})
 
-    let deleteCountry = countries.find(c => c.id==e.target.value);
+    let deleteCountry = countries.find(c => c.id===e.target.value);
 
     setAddedCountries(addedCountries.filter(c => c.name !== deleteCountry.name));
 
   }
   
   function handleSubmit(e) {
-    if(activities.find(a => a.name===activity.name)){
-      e.preventDefault();
-      return alert('Ya existe una actividad con ese nombre');
-    } 
+    e.preventDefault();
+
+    setErrors(validate(activity));
+
+    if(Object.keys(validate(activity)).length) return null;
+
+
     dispatch(createActivity(activity));
     alert('¡Actividad Creada!');
     setActivity({
       name: '',
-      difficulty: '',
-      duration: '',
-      season: '',
+      difficulty: '1',
+      duration: null,
+      season: 'Verano',
       countries: [],
     })
     history.push('/home');
   }
 
   return (
-    <div>
+    <div className={style.body}>
       <Link to="/home">
         <button>Volver</button>
       </Link>
       <h1>Crear Actividad</h1>
-      <form  onSubmit={e=> {handleSubmit(e)}}>
-        <div>
+      <form className={style.form}  onSubmit={e=> {handleSubmit(e)}}>
+        <div className={style.input}>
           <label>Nombre: </label>
-          <input type="text" name="name" value={activity.name} key='name' onChange={(e)=>handleChange(e)} autocomplete="off" required />
-          {errors.name && ( <p className="Error">{errors.name}</p>)}
+          <input type="text" name="name" value={activity.name} key='name' onChange={(e)=>handleChange(e)} autoComplete="off"  />
+          {errors.name && ( <p className={style.error}>{errors.name}</p>)}
         </div>
-        <div>
+        <div className={style.input}>
           <label>Dificultad: </label>
           <div>
             {difficulties.map((d, i) => {
@@ -130,14 +158,17 @@ export default function ActivityCreate() {
                     name="difficulty"
                     value={d}
                     key={d}
-                    onChange={(e)=>handleChange(e)}/>
+                    on
+                    onChange={(e)=>handleChange(e)}
+                    defaultChecked={i === 0}
+                    required/>
                   <label>{d}</label>
                 </span>
               );
             })}
           </div>
         </div>
-        <div>
+        <div className={style.input}>
           <label>Estación: </label>
           <div>
             {seasons.map((s, i) => {
@@ -148,15 +179,18 @@ export default function ActivityCreate() {
                     name="season"
                     value={s}
                     key={s}
-                    onChange={(e)=>handleChange(e)}/>
+                    onChange={(e)=>handleChange(e)}
+                    defaultChecked={i === 0}
+                    required/>
                   <label>{s}</label>
                 </span>
               );
             })}
+            {errors.season && (<p className={style.error}>{errors.season}</p>)}
           </div>
         </div>
 
-        <div>
+        <div className={style.input}>
           <label>Duración: </label>
           <input
             key='duration'
@@ -167,11 +201,12 @@ export default function ActivityCreate() {
             min={1}
             max={24}
             onChange={(e)=>handleChange(e)}
+            
           /> Hs.
-          {errors.duration && (<p>{errors.duration}</p>)}
+          {errors.duration && (<p className={style.error}>{errors.duration}</p>)}
         </div>
 
-        <div>
+        <div className={style.input}>
           <label>País: </label>
           
           <select onChange={(e)=> handleSelect(e)}>
@@ -187,13 +222,14 @@ export default function ActivityCreate() {
           <div>
             {addedCountries?.map(c => {
                 return (
-                    <span key={c.id}>{c.name}<button value={c.id} onClick={e=>{deleteSelect(e)}}>X</button></span>
+                    <span key={c.id}>{c.name}<button type="button" value={c.id} onClick={e=>{deleteSelect(e)}}>X</button></span>
                 )
             })}
+            {errors.countries && ( <p className={style.error}>{errors.countries}</p>)}
           </div>
         </div>
         <div>
-          <button type="submit">Crear Actividad</button>
+          <button type="submit" onClick={e => validate(activity)} className={style.submitButton} >Crear Actividad</button>
         </div>
       </form>
     </div>
