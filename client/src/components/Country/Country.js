@@ -13,9 +13,9 @@ export default function Country({
       <div className={style.body}>
         <img src={flag} alt="Flag not found" width="150px" height="100px" />
         <h3 className={style.title}>{name}</h3>
-        <h5>{continent}</h5>
-        <h5>Población: {population}</h5>
-        <h5>{activities}</h5>
+        <h4>{continent}</h4>
+        <h4>Población: {population}</h4>
+        <h4>{activities}</h4>
       </div>
     </div>
   );

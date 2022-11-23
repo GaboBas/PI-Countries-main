@@ -16,7 +16,7 @@ export default function Pagination({countries, pagination, currentPage}) {
                     else return  <button className={style.pageButtons} onClick={() => pagination(n)} key={n}>{n}</button>
                             
                 })}
-                <button className={style.arrow} disabled={currentPage===(pageNumbers.length)} onClick={(() => pagination(currentPage+1))}> {'->'} </button>
+                <button className={style.arrow}disabled={currentPage===(pageNumbers.length)} onClick={(() => pagination(currentPage+1))}> {'->'} </button>
             </ul>
          </div>
 

@@ -11,7 +11,8 @@
 body {
   background-color: #004643;
   color: #fffffe;
-  font-family: sans-serif;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  
 }
 
 button {
@@ -22,6 +23,10 @@ button {
   border-color: #004643;
   cursor: pointer;
   height: 30px;
+}
+
+button:hover{
+  border-color: #fdd599;
 }
 
 select {
@@ -38,6 +43,7 @@ input {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  flex-wrap: wrap;
   background-color: #001e1d;
 }
 

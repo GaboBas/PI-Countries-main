@@ -6,9 +6,41 @@
     position: absolute
 }
 
+.content{
+    padding-top: 100px;
+}
+
 .title{
-    position: absolute;
-    display: flex;
-    align-content: center;
-    justify-content: center;
+    font-size: 3cm;
+    text-shadow: 4px 4px 4px #001e1d;
+    cursor: default;
+}
+
+
+
+.buttonOutside{
+    padding: 30px;
+    background-color: #001e1d;    
+}
+
+.buttonOutside:hover{
+    border-color: #f9bc60;
+}
+
+.button{
+    font-size: 1cm;
+    padding: none;
+    margin: none;
+    background-color: none;
+    color:#f9bc60 ;
+    text-shadow: 3px 3px 3px #001e1d;
+}
+
+.button:hover{
+    text-shadow: 2px 2px 2px white;
+}
+.welcome{
+    color:#f9bc60 ;
+    cursor: default;
+    text-shadow: 3px 3px 3px #001e1d;
 }

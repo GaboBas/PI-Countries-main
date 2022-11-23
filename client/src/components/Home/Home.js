@@ -46,12 +46,12 @@ export default function Home() {
   //Ordenar por Nombre
   function handleOrderByName(e) {
     e.preventDefault();
-    if (orderName === "Nombre" || orderName === "Nombre↓") {
+    if (orderName === "Nombre" || orderName === "Nombre ↓") {
       dispatch(orderByName("asc"));
-      setOrderName("Nombre↑");
+      setOrderName("Nombre ↑");
     } else {
       dispatch(orderByName("desc"));
-      setOrderName("Nombre↓");
+      setOrderName("Nombre ↓");
     }
     setFilters(true);
     setOrderPop("Población"); //Para asegurarse que el botón población ya no cuente con ninguna flechita
@@ -60,12 +60,12 @@ export default function Home() {
   //Ordenar por población
   function handleOrderByPopulation(e) {
     e.preventDefault();
-    if (orderPop === "Población" || orderPop === "Población↓") {
+    if (orderPop === "Población" || orderPop === "Población ↓") {
       dispatch(orderByPopulation("min"));
-      setOrderPop("Población↑");
+      setOrderPop("Población ↑");
     } else {
       dispatch(dispatch(orderByPopulation("max")));
-      setOrderPop("Población↓");
+      setOrderPop("Población ↓");
     }
     setFilters(true);
     setOrderName("Nombre"); //Para asegurarse que el botón Nombre ya no cuente con ninguna flechita
@@ -116,60 +116,69 @@ export default function Home() {
   return (
     <div>
       <div className={style.searchBar}>
-      <div className={style.filters}>
-        <div className={style.orderButtons}>
-          <div>Ordenar por:</div>
+        <div className={style.filters}>
+          <div className={style.orderButtons}>
+            <div>Ordenar por:</div>
 
-          <button onClick={(e) => handleOrderByName(e)}>{orderName}</button>
+            <button onClick={(e) => handleOrderByName(e)}>{orderName}</button>
 
-          <button onClick={(e) => handleOrderByPopulation(e)}>
-            {orderPop}
-          </button>
-        </div>
-        <div className={style.filterButtons}>
-          <div className={style.orderSelectFilters}>
-            <div>Filtrar todos por Continente: </div>
-            <select
-              id="Continents"
-              value={selectedContinent}
-              onChange={(e) => handleFilterContinent(e)}
-            >
-              <option value="All">Todos</option>
-              <option value="Africa">África</option>
-              <option value="Antarctica">Antártica</option>
-              <option value="Asia">Asia</option>
-              <option value="Europe">Europa</option>
-              <option value="North America">Norteamérica</option>
-              <option value="South America">Sudamérica</option>
-              <option value="Oceania">Oceanía</option>
-            </select>
+            <button onClick={(e) => handleOrderByPopulation(e)}>
+              {orderPop}
+            </button>
           </div>
-          <div className={style.orderSelectFilters}>
-            <div>Filtrar todos por Actividad: </div>
-            <select
-              id="Activities"
-              value={selectedActivity}
-              onChange={(e) => handleFilterActivity(e)}
-            >
-              <option value="All">Todas</option>
-              {activities?.map((a) => {
-                return (
-                  <option value={a.name} key={a.id}>
-                    {a.name}
-                  </option>
-                );
-              })}
-            </select>
+          <div className={style.filterButtons}>
+            <div className={style.orderSelectFilters}>
+              <div>Filtrar todos por Continente: </div>
+              <select
+                id="Continents"
+                value={selectedContinent}
+                onChange={(e) => handleFilterContinent(e)}
+              >
+                <option value="All">Todos</option>
+                <option value="Africa">África</option>
+                <option value="Antarctica">Antártica</option>
+                <option value="Asia">Asia</option>
+                <option value="Europe">Europa</option>
+                <option value="North America">Norteamérica</option>
+                <option value="South America">Sudamérica</option>
+                <option value="Oceania">Oceanía</option>
+              </select>
+            </div>
+            <div className={style.orderSelectFilters}>
+              <div>Filtrar todos por Actividad: </div>
+              <select
+                id="Activities"
+                value={selectedActivity}
+                onChange={(e) => handleFilterActivity(e)}
+              >
+                <option value="All">Todas</option>
+                {activities?.map((a) => {
+                  return (
+                    <option value={a.name} key={a.id}>
+                      {a.name}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
           </div>
+          <SearchBar setCurrentPage={setCurrentPage} setFilters={setFilters} />
         </div>
-        <SearchBar setCurrentPage={setCurrentPage} setFilters={setFilters} />
+
+        <button
+          disabled={!filters}
+          className={style.unfilter}
+          onClick={(e) => handleUnfilter(e)}
+        >
+          Quitar Filtros/Búsqueda
+        </button>
       </div>
-      
-
-        
-          <button disabled={!filters} className={style.unfilter} onClick={(e) => handleUnfilter(e)}>
-            Quitar Filtros/Búsqueda
-          </button>
+      <div className={style.pagination}>
+        <Pagination
+          countries={countries.length}
+          pagination={pagination}
+          currentPage={currentPage}
+        />
       </div>
       {loading ? (
         <div>
@@ -216,13 +225,7 @@ export default function Home() {
       ) : (
         <div>No se encontraron países </div>
       )}
-      <div className={style.pagination}>
-        <Pagination
-          countries={countries.length}
-          pagination={pagination}
-          currentPage={currentPage}
-        />
-      </div>
+      
     </div>
   );
 }

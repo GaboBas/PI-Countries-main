@@ -25,28 +25,27 @@ export default function CountryDetail(props) {
           <div>Cargando...</div>
         </div>
       ) : country ? (
+        <div><div className={style.title}><h1 className={style.h1}>{country.name}</h1></div>
         <div className={style.body}>
-          <h1>{country.name}</h1>
+        <div className={style.card}>
           <img
             className={style.flag}
             src={country.flag}
             alt="Flag not found"
-            width="250px"
-            height="200px"
-          />
+             />
           <h4>{country.id}</h4>
-          <div>
-            <h5>Continente: {country.continent}</h5>
-            <h5>Subregión: {country.subregion}</h5>
-            <h5>Capital: {country.capital}</h5>
-            <h5>Área: {country.area} Km2</h5>
-            <h5>Población: {country.population}</h5>
-            <h5>
+          <div className={style.info}>
+            <h4>Continente: {country.continent}</h4>
+            <h4>Subregión: {country.subregion}</h4>
+            <h4>Capital: {country.capital}</h4>
+            <h4>Área: {country.area} Km2</h4>
+            <h4>Población: {country.population}</h4>
+            <h4>
               Actividades Turísticas:{" "}
               {country.activities.length ? (
-                <ul>
+                <ul className={style.activities}>
                   {country.activities.map((a) => (
-                    <li>
+                    <li >
                       {" "}
                       {a.name}:{" "}
                       <ul>
@@ -60,10 +59,10 @@ export default function CountryDetail(props) {
               ) : (
                 "N/A"
               )}{" "}
-            </h5>
+            </h4>
           </div>
-          <Link to={"/home"}>Volver</Link>
-        </div>
+          <Link to={"/home"}><button >{'<-'} Volver</button></Link>
+        </div></div></div>
       ) : (
         <div>No se encontró el país</div>
       )}

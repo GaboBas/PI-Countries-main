@@ -37,6 +37,8 @@ export default function ActivityCreate() {
       errors.name = '*La actividad debe tener un nombre';
     }else if(validation.test(activity.name)){
       errors.name = '*El nombre de la actividad no debe contener caracteres especiales'
+    }else if(activity.name.length>24) {
+      errors.name = '*El nombre no debe superar los 24 caracteres';
     }
     
     if (activity.duration < 0 || activity.duration > 24 ){
@@ -64,6 +66,9 @@ export default function ActivityCreate() {
     dispatch(getActivities());
   }, [dispatch]);
 
+  useEffect(()=> {
+    setErrors(validate(activity))
+  }, [activity]);
   
   dispatch(orderByName("asc")); //Ordeno la lista de paises para que sea más fácil encontrarlos
 
@@ -73,14 +78,15 @@ export default function ActivityCreate() {
 
     setActivity({...activity, [e.target.name] : e.target.value})
     
-      /*   setErrors(validate({
+    setErrors(validate({
       ...activity, [e.target.name] : e.target.value
-    })) */
+    }))
 
   }
 
   //SELECT
   function handleSelect(e) {
+    e.preventDefault();
     
     let country = e.target.value;
     
@@ -91,8 +97,7 @@ export default function ActivityCreate() {
       return alert('Ya agregaste ese país');
     }
 
-
-  
+    
     setActivity({...activity, countries: [...activity.countries, country]});
 
     let addCountry = countries.find(c => c.id===country);
@@ -100,7 +105,9 @@ export default function ActivityCreate() {
 
     setAddedCountries([...addedCountries, addCountry]);
 
-    
+    setErrors(validate({
+      ...activity, [e.target.name] : addedCountries
+    }))
 
   }
 
@@ -143,10 +150,10 @@ console.log(activity)
     <div >
       <div className={style.title}><h1 className={style.h1}>Crear Actividad</h1></div>
       <div className={style.body}>
-      <form className={style.form}  onSubmit={e=> {handleSubmit(e)}}>
+      <form className={style.card}  onSubmit={e=> {handleSubmit(e)}}>
         <div className={style.input}>
           <label>Nombre: </label>
-          <input type="text" name="name" value={activity.name} key='name' onChange={(e)=>handleChange(e)} autoComplete="off"  />
+          <input type="text" name="name" value={activity.name} key='name' onChange={(e)=>handleChange(e)} maxLength={24} autoComplete="off"  />
           {errors.name && ( <p className={style.error}>{errors.name}</p>)}
         </div>
         <div className={style.input}>
@@ -205,7 +212,7 @@ console.log(activity)
             onChange={(e)=>handleChange(e)}
             
           /> Hs.
-          {errors.duration && (<p className={style.error}>{errors.duration}</p>)}
+          {errors.duration && (<div className={style.error}>{errors.duration}</div>)}
         </div>
 
         <div className={style.input}>
@@ -231,12 +238,13 @@ console.log(activity)
           </div>
         </div>
         <div>
-          <button type="submit" onClick={e => validate(activity)} className={style.submitButton} >Crear Actividad</button>
+          <button type="submit" onClick={e => validate(activity)} className={style.submitButton} disabled={Object.keys(validate(activity)).length}>Crear Actividad</button>
         </div>
-      </form>
-      <Link to="/home">
-        <button>Volver</button>
+        <Link to="/home">
+        <button>{'<-'} Volver</button>
       </Link>
+      </form>
+      
       </div>
     </div>
   );

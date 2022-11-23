@@ -16,8 +16,9 @@
   border: 2px solid #00000000;
   background-color: #abd1c6;
   color: #fffffe;
-  height: 250px;
+  height: 220px;
   width: 250px;
+  text-shadow: 1px 1px 1px #001e1d;
 }
 
 .body:hover {

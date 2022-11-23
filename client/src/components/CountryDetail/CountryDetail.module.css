@@ -1,25 +1,41 @@
-.body {
-    margin-top: 20px ;
-    margin-left: 35%;
-    padding-block: 40px; 
-    border-radius: 5%;  
-    border: 2px solid #00000000;
-    background-color: #abd1c6;
-    color: #fffffe;
-    width: 500px;
-    height: 700px;
-    display: flex;
-    flex-direction: column;
-    position: relative;
-    
+.body{
+  display: flex;
+  justify-content: center;
+  text-shadow: 1px 1px 1px #001e1d
+}
+.card {
+  margin-top: 20px;
+  padding-block: 40px;
+  border-radius: 5%;  
+  border: 2px solid #00000000;
+  background-color: #abd1c6;
+  color: #fffffe;
+  width: 400px;
+  max-height: 2000px;
+  
   }
 
   .flag{
     position: relative;
     align-self: center;
+    max-width: 250px;
+    max-height: 200px;
   }
 
   .activities{
     position: relative;
-    
+    flex-direction: column;
+    margin-left: 110px;
+    text-align: left;
+  }
+
+  .title{
+    justify-content: center;
+    background-color: #001e1d;
+    size: 20px;
+    padding: 30px;
+  }
+
+  .h1{
+    margin: 0px;
   }
