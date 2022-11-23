@@ -24,8 +24,10 @@ export default function Home() {
 
   const [filters, setFilters] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const firstIndex = (currentPage - 1) * 10 - 1; //Obtengo el index del primer pais que va a mostarse en la página a partir de la segunda
+  const firstIndex = (currentPage - 1) * 10 - 1; // Página actual - 1(porque al descontar un país en la primera página arrancaría en la anterior) por cantidad de países -1 Obtengo el index del primer pais que va a mostarse en la página a partir de la segunda
   const lastIndex = currentPage * 10 - 2; //Obtengo el index del último pais que va a mostrarse en la página a partir de la segunda
+
+  //Estados de filtros y ordenamientos 
 
   const [orderName, setOrderName] = useState("Nombre");
   const [orderPop, setOrderPop] = useState("Población");
@@ -98,6 +100,7 @@ export default function Home() {
     } else {
       setFilters(true);
     }
+    setCurrentPage(1);
   }
 
   //Quitar filtros
@@ -180,14 +183,13 @@ export default function Home() {
           currentPage={currentPage}
         />
       </div>
-      {loading ? (
+      {loading ? 
         <div>
           <img src={loadingLogo} alt="Cargando..." />
           <div>Cargando...</div>
         </div>
-      ) : countries.length ? (
+       : countries.length ? 
         <div className={style.cards}>
-          {" "}
           {countries.map((c, i) => {
             if (i < 9 && currentPage === 1)
               return (
@@ -222,8 +224,8 @@ export default function Home() {
               ); //A partir de la segunda, renderizaré 10 paises
           })}{" "}
         </div>
-      ) : (
-        <div>No se encontraron países </div>
+       : (
+        <h2>No se encontraron países </h2>
       )}
       
     </div>

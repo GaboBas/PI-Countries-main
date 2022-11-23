@@ -29,14 +29,14 @@ export default function ActivityCreate() {
   //Validaciones
   function validate(activity) {
     let errors = {};
-    let validation = /[¡!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/¿?]+/;
+    let validation =  /^[a-zA-Z\s]+$/;
 
     if(activities.find(a => a.name===activity.name)){
       errors.name = '*Ya existe una actividad con ese nombre';
     } else if(!activity.name) {
       errors.name = '*La actividad debe tener un nombre';
-    }else if(validation.test(activity.name)){
-      errors.name = '*El nombre de la actividad no debe contener caracteres especiales'
+    }else if(!validation.test(activity.name)){
+      errors.name = '*El nombre de la actividad no debe contener caracteres especiales ni números'
     }else if(activity.name.length>24) {
       errors.name = '*El nombre no debe superar los 24 caracteres';
     }
@@ -136,13 +136,7 @@ console.log(activity)
 
     dispatch(createActivity(activity));
     alert('¡Actividad Creada!');
-    setActivity({
-      name: '',
-      difficulty: '1',
-      duration: null,
-      season: 'Verano',
-      countries: [],
-    })
+
     history.push('/home');
   }
 

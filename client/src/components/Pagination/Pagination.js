@@ -8,16 +8,17 @@ export default function Pagination({countries, pagination, currentPage}) {
         pageNumbers.push(i)
          }
 
-         return <div>
+
+         if(pageNumbers.length>1) {return <div>
             <ul>
                 <button className={style.arrow} disabled={currentPage===1} onClick={(() => pagination(currentPage-1))}> {'<-'} </button>
-                {pageNumbers.length > 1 && pageNumbers.map(n => {
+                {pageNumbers.map(n => {
                     if(n===currentPage) return  <button className={style.selectedPageButtons} onClick={() => pagination(n)} key={n}>{n}</button>
                     else return  <button className={style.pageButtons} onClick={() => pagination(n)} key={n}>{n}</button>
                             
                 })}
-                <button className={style.arrow}disabled={currentPage===(pageNumbers.length)} onClick={(() => pagination(currentPage+1))}> {'->'} </button>
+                <button  className={style.arrow}disabled={currentPage===(pageNumbers.length)} onClick={(() => pagination(currentPage+1))}> {'->'} </button>
             </ul>
          </div>
-
+         } else return <div/>
 }
