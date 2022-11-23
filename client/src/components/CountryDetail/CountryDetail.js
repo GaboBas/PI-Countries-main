@@ -52,7 +52,7 @@ export default function CountryDetail(props) {
                           {a.name}:
                           <ul>
                             <li>Dificultad: {a.difficulty}</li>
-                            {a.duration && <li>Duración: {a.duration}</li>}
+                            {a.duration && <li>Duración: {a.duration} Horas</li>}
                             <li>Estación: {a.season}</li>
                           </ul>
                         </li>
